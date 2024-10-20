@@ -1,3 +1,4 @@
+FROM debian:bookworm-slim
 #LABEL maintainer="znetwork@me.com"
 LABEL version="0.1"
 LABEL description="AIRPRINT FROM DOCKER (Canon UFR II)"
