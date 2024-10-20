@@ -1,3 +1,12 @@
+# NOTE:
+
+10/19/24
+
+This is a work in progress. This project is being converted to use the Canon UFR II printer drivers. The Docker image for this is not yet published.
+
+Stay tuned for updates.
+
+
 # znetwork/cups-avahi-airprint [docker-image](https://hub.docker.com/r/znetwork/synology-airprint)
 
 # Working on Synology DSM 7 (!!!) and AMD64
