@@ -6,6 +6,8 @@ This is a work in progress. This project is being converted to use the Canon UFR
 
 Stay tuned for updates.
 
+Inspired by [Limpan's fork](https://github.com/Limpan/docker-cups-airprint-ufrii)
+
 
 # znetwork/cups-avahi-airprint [docker-image](https://hub.docker.com/r/znetwork/synology-airprint)
 
