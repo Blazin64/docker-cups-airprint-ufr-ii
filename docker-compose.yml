@@ -1,15 +1,26 @@
-version: '3.5'
-
 services:
   airprint:
-    container_name: airprint
-    image: znetwork/synology-airprint:0.3
+    container_name: airprint-ufr-ii
+    image: blazin64/airprint-ufr-ii:0.1
     build: .
     restart: always
-    network_mode: "host"
+    # The CUPS admin interface can be accessed through a browser at http://localhost:631
+    # After setting up a printer in CUPS, you can access it by using this URL:
+    # <ip address>:631/printers/<printer name>
+    ports:
+      - 631:631
+      - 5353:5353
+      - 515:515
+      - 137:137
+      - 139:139
+      - 445:445
+      - 9100:9100
     environment:
       CUPSADMIN: admin
       CUPSPASSWORD: admin
     volumes:
-      - "./services:/services"
-      - "./config:/config"
+      - ./services:/services
+      - ./config:/config
+    # If you printer is connected via USB, give the container access.
+    #devices:
+    #  - /dev/bus/usb/xx/yy:/dev/bus/usb/xx/yy

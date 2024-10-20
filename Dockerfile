@@ -1,24 +1,25 @@
-FROM ubuntu:jammy
-LABEL maintainer="znetwork@me.com"
-LABEL version="0.3"
-LABEL description="AIRPRINT FROM SYNOLOGY DSM 7 (HP, SAMSUNG, ETC)"
+#LABEL maintainer="znetwork@me.com"
+LABEL version="0.1"
+LABEL description="AIRPRINT FROM DOCKER (Canon UFR II)"
 
-RUN apt-get update && apt-get install -y \
+ENV CANON_DRIVER_URL='https://gdlp01.c-wss.com/gds/6/0100009236/20/linux-UFRII-drv-v600-us-02.tar.gz'
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
 	locales \
-	brother-lpr-drivers-extra brother-cups-wrapper-extra \
-	printer-driver-splix \
-	printer-driver-gutenprint \
-	gutenprint-doc \
-	gutenprint-locales \
-	libgutenprint9 \
-	libgutenprint-doc \
-	ghostscript \
-	hplip \
 	cups \
+	cups-bsd \
 	cups-pdf \
 	cups-client \
 	cups-filters \
+	curl \
 	inotify-tools \
+	libcups2 \
+	libcupsimage2 \
+	libgtk-3.0 \
+	libjpeg62 \
+	libjbig0 \
+	libgcrypt20 \
+	lsb-release \
 	avahi-daemon \
 	avahi-discover \
 	python3 \
@@ -26,11 +27,29 @@ RUN apt-get update && apt-get install -y \
 	python3-pip \
 	python3-cups \
 	wget \
+	zlib1g \
 	rsync \
 	&& rm -rf /var/lib/apt/lists/*
 
-# This will use port 631
-EXPOSE 631
+# Install UFRII drivers
+RUN curl $CANON_DRIVER_URL | tar xz && \
+    dpkg -i *-UFRII-*/x64/Debian/*ufr2*.deb && \
+    rm -rf *-UFRII-*
+
+# SMB --- TODO
+EXPOSE 137/udp 139/tcp 445/tcp
+
+# IPP
+EXPOSE 631/tcp
+
+# LDP
+EXPOSE 515/tcp
+
+# JetDirect / AppSocket
+EXPOSE 9100
+
+# Discovery (Avahi)
+EXPOSE 5353/udp
 
 # We want a mount for these
 VOLUME /config
